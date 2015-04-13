@@ -129,4 +129,6 @@ private
   def provider
     Frontend::StatisticsAnnouncementProvider
   end
+
+
 end
