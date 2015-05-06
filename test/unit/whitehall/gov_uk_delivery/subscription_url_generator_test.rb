@@ -410,4 +410,37 @@ class Whitehall::GovUkDelivery::SubscriptionUrlGeneratorTest < ActiveSupport::Te
       "feed?departments%5B%5D=#{organisation.slug}"
     )
   end
+
+  test "#subscription_urls for a statistics publication returns atom feed urls for both publications and statistics" do
+    @edition = create(:publication, publication_type: PublicationType::Statistics)
+
+    assert_subscription_urls_for_edition_include(
+      "publications.atom",
+      "publications.atom?publication_filter_option=statistics",
+      "statistics.atom",
+      "statistics.atom?publication_filter_option=statistics",
+    )
+  end
+
+  test "#subscription_urls for a national statistics publication returns atom feed urls for both publications and statistics" do
+    @edition = create(:publication, publication_type: PublicationType::NationalStatistics)
+
+    assert_subscription_urls_for_edition_include(
+      "publications.atom",
+      "publications.atom?publication_filter_option=statistics",
+      "statistics.atom",
+      "statistics.atom?publication_filter_option=statistics",
+    )
+  end
+
+  test "#subscription_urls for a statistical data set returns atom feed urls for both publications and statistics" do
+    @edition = create(:statistical_data_set)
+
+    assert_subscription_urls_for_edition_include(
+      "publications.atom",
+      "publications.atom?publication_filter_option=statistics",
+      "statistics.atom",
+      "statistics.atom?publication_filter_option=statistics",
+    )
+  end
 end
